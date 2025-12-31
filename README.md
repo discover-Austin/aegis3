@@ -1,6 +1,16 @@
-# AEGIS-2: Adaptive Emergent Generative Intelligence System
+# AEGIS-3: Adaptive Emergent Generative Intelligence System
 
 **An open-ended evolving system designed for genuine emergence.**
+
+---
+**🚀 NEW IN AEGIS-3**: All 18 critical improvements implemented!
+
+Real fitness • Persistence • 100+ Primitives • Multi-modal I/O • Representation Evolution
+Unrestricted Self-Mod • Grounded Symbols • World Models • Attention • Temporal Hierarchy
+Communication • Causal Reasoning • Benchmarks • Long-run • Distributed • Viz • Tracking • Bootstrap
+
+📖 **See [AEGIS3_IMPROVEMENTS.md](AEGIS3_IMPROVEMENTS.md) for complete documentation**
+---
 
 ## What Is This?
 
