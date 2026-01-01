@@ -152,6 +152,42 @@ from visualization.dashboard import AEGISDashboard
 from tracking.tracker import ExperimentTracker
 from bootstrap.minimal import MinimalBootstrap
 
+# Baselines (for benchmarking)
+from baselines.neat import NEAT, NEATGenome
+from baselines.map_elites import MAPElites, Elite
+from baselines.poet import POET, POETEnvironment, POETPair
+
+# Advanced Tasks
+from tasks.advanced.compositional import (
+    CompositionalReasoningTask,
+    FunctionCompositionTask,
+    StructuralAbstractionTask
+)
+from tasks.advanced.meta_learning import (
+    MetaLearningTask,
+    FewShotLearningTask,
+    StrategyAdaptationTask
+)
+from tasks.advanced.creative import (
+    CreativeGenerationTask,
+    NovelPatternTask,
+    ConceptCombinationTask
+)
+
+# Analysis Tools
+from analysis.emergence_detector import (
+    EmergenceDetector,
+    EmergenceType,
+    EmergenceEvent,
+    MultiScaleDetector
+)
+from analysis.complexity_metrics import ComplexityAnalyzer
+from analysis.phase_transitions import (
+    PhaseTransitionDetector,
+    CriticalityAnalyzer,
+    BifurcationDetector
+)
+
 __all__ = [
     # Core
     'AEGIS2',
@@ -264,5 +300,35 @@ __all__ = [
     'AEGISDashboard',
     'ExperimentTracker',
     'MinimalBootstrap',
+
+    # Baselines
+    'NEAT',
+    'NEATGenome',
+    'MAPElites',
+    'Elite',
+    'POET',
+    'POETEnvironment',
+    'POETPair',
+
+    # Advanced Tasks
+    'CompositionalReasoningTask',
+    'FunctionCompositionTask',
+    'StructuralAbstractionTask',
+    'MetaLearningTask',
+    'FewShotLearningTask',
+    'StrategyAdaptationTask',
+    'CreativeGenerationTask',
+    'NovelPatternTask',
+    'ConceptCombinationTask',
+
+    # Analysis
+    'EmergenceDetector',
+    'EmergenceType',
+    'EmergenceEvent',
+    'MultiScaleDetector',
+    'ComplexityAnalyzer',
+    'PhaseTransitionDetector',
+    'CriticalityAnalyzer',
+    'BifurcationDetector',
 ]
 

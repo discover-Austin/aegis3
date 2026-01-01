@@ -406,4 +406,30 @@ Built feverishly in pursuit of emergence.
 
 ---
 
+## Latest Expansion: Beyond the 18 Improvements
+
+Building on the complete AEGIS-3 foundation, we've added:
+
+### **Baseline Algorithms** (`baselines/`)
+Rigorous comparison with state-of-the-art:
+- **NEAT**: NeuroEvolution of Augmenting Topologies with speciation
+- **MAP-Elites**: Quality-diversity algorithm for illuminating search spaces
+- **POET**: Paired open-ended trailblazer for co-evolution
+
+### **Advanced Task Domains** (`tasks/advanced/`)
+Testing genuine capabilities:
+- **Compositional Reasoning**: Function composition, structural abstraction, recursion
+- **Meta-Learning**: Few-shot learning, strategy adaptation, learning-to-learn
+- **Creative Generation**: Novel patterns, concept blending, coherent structures
+
+### **Emergence Analysis** (`analysis/`)
+Detecting and quantifying emergence:
+- **Multi-scale Emergence Detection**: Capability jumps, phase transitions, novel patterns
+- **Complexity Metrics**: Lempel-Ziv, Kolmogorov, logical depth, effective complexity
+- **Phase Transitions**: Order parameters, criticality analysis, bifurcation detection
+
+**See [EXAMPLES.md](EXAMPLES.md) for comprehensive usage examples.**
+
+---
+
 *"The whole is not only more than the sum of its parts, but the parts themselves become different when they are part of the whole."*
