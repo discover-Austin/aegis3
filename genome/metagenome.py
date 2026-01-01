@@ -288,7 +288,10 @@ class ProgramExecutor:
             exp = min(10, max(-10, self._safe_num(child(1))))
             try:
                 return math.pow(base, exp)
-            except:
+            except (ValueError, OverflowError, TypeError):
+                # ValueError: if invalid values for pow
+                # OverflowError: if result too large
+                # TypeError: if wrong type
                 return 0.0
         
         # Comparison
@@ -419,7 +422,9 @@ class ProgramExecutor:
             if math.isnan(f) or math.isinf(f):
                 return 0.0
             return max(-1e10, min(1e10, f))
-        except:
+        except (ValueError, TypeError):
+            # ValueError: if cannot convert to float
+            # TypeError: if wrong type
             return 0.0
     
     def _truthy(self, val: Any) -> bool:

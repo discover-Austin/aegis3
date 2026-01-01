@@ -239,12 +239,9 @@ class SourceAnalyzer:
         return [f for f in self.fragments.values() if f.file_path == file_path]
     
     def get_modifiable_fragments(self, min_complexity: int = 2) -> List[CodeFragment]:
-        try:
-                """Get fragments that are good candidates for modification."""
-                return [f for f in self.fragments.values() 
-                        if f.complexity >= min_complexity and f.node_type in ('function', 'method')]
-        except Exception as e:
-            raise  # Extended with error handling
+        """Get fragments that are good candidates for modification."""
+        return [f for f in self.fragments.values()
+                if f.complexity >= min_complexity and f.node_type in ('function', 'method')]
 
 
 class CodeGenerator:
@@ -626,7 +623,8 @@ class VersionControl:
                     data = json.load(f)
                     self.commits = data.get('commits', [])
                     self.current_version = data.get('current_version', 0)
-            except:
+            except (json.JSONDecodeError, IOError, KeyError):
+                # If history file is corrupted, start fresh
                 pass
     
     def _save_history(self):

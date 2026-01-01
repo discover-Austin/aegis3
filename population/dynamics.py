@@ -577,7 +577,7 @@ class Population:
                     pattern = pattern_from_dict(message.content)
                     receiver.patterns.register(pattern)
                     message.copies += 1
-                    
+
                     # Track meme
                     meme_id = message.origin_id + "_" + message.id
                     if meme_id not in self.meme_pool:
@@ -587,7 +587,12 @@ class Population:
                             'origin': message.origin_id
                         }
                     self.meme_pool[meme_id]['copies'] += 1
-                except:
+                except (ImportError, ValueError, KeyError, AttributeError, TypeError):
+                    # ImportError: if patterns.compositional doesn't exist
+                    # ValueError: if message.content is invalid
+                    # KeyError: if message.content is missing required keys
+                    # AttributeError: if pattern_from_dict or receiver.patterns doesn't exist
+                    # TypeError: if wrong types provided
                     pass
         
         self.message_history.extend(self.message_queue)
