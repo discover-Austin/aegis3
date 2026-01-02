@@ -53,6 +53,7 @@ class Modality(ABC):
 @dataclass
 class ImageModality(Modality):
     """Image modality (2D or 3D arrays)."""
+    modality_type: ModalityType = field(default=ModalityType.IMAGE, init=False)
     width: int = 32
     height: int = 32
     channels: int = 3  # RGB
@@ -65,7 +66,6 @@ class ImageModality(Modality):
                 [[0.0 for _ in range(self.channels)] for _ in range(self.width)]
                 for _ in range(self.height)
             ]
-        self.modality_type = ModalityType.IMAGE
 
     def to_vector(self) -> List[float]:
         """Flatten image to vector."""
@@ -618,12 +618,10 @@ class VideoModality(Modality):
 @dataclass
 class TextModality(Modality):
     """Text modality (token sequences)."""
+    modality_type: ModalityType = field(default=ModalityType.TEXT, init=False)
     tokens: List[str] = field(default_factory=list)
     vocab_size: int = 256  # ASCII-like
     max_length: int = 128
-
-    def __post_init__(self):
-        self.modality_type = ModalityType.TEXT
 
     def to_vector(self) -> List[float]:
         """Convert tokens to one-hot encoding."""
@@ -666,6 +664,7 @@ class TextModality(Modality):
 @dataclass
 class AudioModality(Modality):
     """Audio modality (waveforms)."""
+    modality_type: ModalityType = field(default=ModalityType.AUDIO, init=False)
     sample_rate: int = 16000
     samples: List[float] = field(default_factory=list)
     duration: float = 1.0  # seconds
@@ -675,7 +674,6 @@ class AudioModality(Modality):
             # Initialize with silence
             num_samples = int(self.sample_rate * self.duration)
             self.samples = [0.0] * num_samples
-        self.modality_type = ModalityType.AUDIO
 
     def to_vector(self) -> List[float]:
         """Audio is already a vector."""
@@ -995,6 +993,7 @@ class AudioModality(Modality):
 @dataclass
 class TimeSeriesModality(Modality):
     """Time series modality."""
+    modality_type: ModalityType = field(default=ModalityType.TIME_SERIES, init=False)
     series: List[List[float]] = field(default_factory=list)  # [time_steps, features]
     num_features: int = 1
     num_timesteps: int = 100
@@ -1002,7 +1001,6 @@ class TimeSeriesModality(Modality):
     def __post_init__(self):
         if not self.series:
             self.series = [[0.0] * self.num_features for _ in range(self.num_timesteps)]
-        self.modality_type = ModalityType.TIME_SERIES
 
     def to_vector(self) -> List[float]:
         """Flatten time series."""
@@ -1042,13 +1040,11 @@ class TimeSeriesModality(Modality):
 @dataclass
 class GraphModality(Modality):
     """Graph modality (nodes and edges)."""
+    modality_type: ModalityType = field(default=ModalityType.GRAPH, init=False)
     nodes: List[str] = field(default_factory=list)
     edges: List[Tuple[str, str]] = field(default_factory=list)
     node_features: Dict[str, List[float]] = field(default_factory=dict)
     edge_features: Dict[Tuple[str, str], List[float]] = field(default_factory=dict)
-
-    def __post_init__(self):
-        self.modality_type = ModalityType.GRAPH
 
     def to_vector(self) -> List[float]:
         """Convert graph to vector (adjacency + features)."""

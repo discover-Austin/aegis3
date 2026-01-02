@@ -1,0 +1,60 @@
+{
+  "metrics": {
+    "novelty": {
+      "avg": 0.16554204059419333,
+      "non_zero_pct": 100.0,
+      "history": [
+        1.0,
+        0.1891654803651381,
+        0.1329680976934755,
+        0.12920056520563442,
+        0.14198778249237723,
+        0.1620732102302633,
+        0.17319695122813825,
+        0.14773917625864205,
+        0.1320532506553685,
+        0.13797205007230895
+      ]
+    },
+    "self_modification": {
+      "total_modifications": 7,
+      "successful_modifications": 5,
+      "failed_modifications": 2,
+      "success_rate": 0.7142857142857143,
+      "improvements_count": 0,
+      "avg_improvement": 0.0,
+      "modification_types": {
+        "add_gene": 2,
+        "modify_gene": 3,
+        "delete_gene": 0,
+        "crossover": 2
+      }
+    },
+    "scalability": {
+      "initial_rate": 615.1317796384193,
+      "final_rate": 2423.927359536234,
+      "rate_change_pct": 294.0500945929087,
+      "max_patterns": 3
+    },
+    "fitness": {
+      "initial": 0.060983708482377635,
+      "final": 0.060983708482377635,
+      "improvement": 0.0
+    }
+  },
+  "checkpoints": [
+    {
+      "cycle": 100,
+      "elapsed": 0.041127920150756836,
+      "rate": 2431.438293826774,
+      "fitness": 0.05228216123255353,
+      "novelty": 0.1562688948165408,
+      "avg_novelty": 0.16554204059419333,
+      "patterns": 3,
+      "self_mods": 7,
+      "emergence": 0
+    }
+  ],
+  "tests_passed": "4/5",
+  "overall_success": true
+}
