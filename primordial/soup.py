@@ -83,7 +83,11 @@ class Atom:
                 return random.random()
             else:
                 return 0.0
-        except:
+        except (OverflowError, ValueError, TypeError, IndexError):
+            # OverflowError: if numbers too large for math operations
+            # ValueError: if invalid values for math functions
+            # TypeError: if inputs have wrong type
+            # IndexError: if inputs list access fails
             return 0.0
 
 

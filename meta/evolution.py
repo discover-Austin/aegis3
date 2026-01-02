@@ -437,7 +437,12 @@ class FitnessComponent:
         try:
             fn = eval(self.implementation)
             return fn(state) * self.weight
-        except:
+        except (SyntaxError, NameError, TypeError, AttributeError, Exception):
+            # SyntaxError: if implementation has invalid syntax
+            # NameError: if implementation references undefined names
+            # TypeError: if fn is not callable or has wrong arguments
+            # AttributeError: if state access fails
+            # Exception: catch any other execution errors
             return 0.0
     
     def clone(self) -> 'FitnessComponent':

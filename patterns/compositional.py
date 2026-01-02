@@ -21,6 +21,12 @@ from enum import Enum
 from datetime import datetime
 import json
 from abc import ABC, abstractmethod
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from utils.memoization import memoize
 
 
 class PatternOperator(Enum):
@@ -607,7 +613,10 @@ class MetaPattern(ComposablePattern):
     # Statistics
     patterns_recognized: int = 0
     patterns_generated: int = 0
-    
+
+    # Memoization cache for _compose operations
+    _compose_cache: Dict[str, ComposablePattern] = field(default_factory=dict, repr=False)
+
     def match(self, input_data: Any, bindings: Optional[Dict] = None) -> Tuple[bool, Dict]:
         """Match against a pattern structure."""
         bindings = bindings.copy() if bindings else {}
@@ -692,21 +701,31 @@ class MetaPattern(ComposablePattern):
         return clone
     
     def _compose(self, bindings: Dict) -> ComposablePattern:
-        # TODO: Add memoization cache
-        """Compose multiple patterns into one."""
+        """Compose multiple patterns into one (with memoization)."""
+        # Create cache key from patterns and operator
         patterns = bindings.get('patterns', self.sub_patterns)
         if not patterns:
             return AtomicPattern()
-        
+
         if len(patterns) == 1:
             return patterns[0].clone()
-        
+
         operator = bindings.get('operator', PatternOperator.SEQ)
-        return CompoundPattern(
+
+        # Check cache
+        cache_key = f"{operator.value}:{'|'.join(p.id for p in patterns)}"
+        if cache_key in self._compose_cache:
+            return self._compose_cache[cache_key].clone()
+
+        # Compute and cache result
+        result = CompoundPattern(
             operator=operator,
             children=[p.clone() for p in patterns],
             name=f"composed_{len(patterns)}"
         )
+        self._compose_cache[cache_key] = result
+
+        return result.clone()
     
     def _decompose(self, bindings: Dict) -> List[ComposablePattern]:
         """Break a pattern into components."""

@@ -409,12 +409,17 @@ class ExtendedPrimitiveExecutor:
         elif node_type == ExtendedNodeType.EXP:
             try:
                 return math.exp(min(100, float(args[0])))  # Prevent overflow
-            except:
+            except (OverflowError, ValueError, TypeError):
+                # OverflowError: if exp result too large
+                # ValueError: if invalid value
+                # TypeError: if wrong type
                 return 0.0
         elif node_type == ExtendedNodeType.LOG:
             try:
                 return math.log(abs(float(args[0])) + 1e-10)
-            except:
+            except (ValueError, TypeError):
+                # ValueError: if value is invalid for log
+                # TypeError: if wrong type
                 return 0.0
         elif node_type == ExtendedNodeType.SQRT:
             return math.sqrt(abs(float(args[0])))
@@ -425,12 +430,16 @@ class ExtendedPrimitiveExecutor:
         elif node_type == ExtendedNodeType.MIN:
             try:
                 return min(float(args[0]), float(args[1]))
-            except:
+            except (ValueError, TypeError):
+                # ValueError: if cannot convert to float
+                # TypeError: if wrong type
                 return 0.0
         elif node_type == ExtendedNodeType.MAX:
             try:
                 return max(float(args[0]), float(args[1]))
-            except:
+            except (ValueError, TypeError):
+                # ValueError: if cannot convert to float
+                # TypeError: if wrong type
                 return 0.0
         elif node_type == ExtendedNodeType.SUM:
             if isinstance(args[0], list):
@@ -478,12 +487,16 @@ class ExtendedPrimitiveExecutor:
         elif node_type == ExtendedNodeType.CAST_INT:
             try:
                 return int(float(args[0]))
-            except:
+            except (ValueError, TypeError):
+                # ValueError: if cannot convert to int
+                # TypeError: if wrong type
                 return 0
         elif node_type == ExtendedNodeType.CAST_FLOAT:
             try:
                 return float(args[0])
-            except:
+            except (ValueError, TypeError):
+                # ValueError: if cannot convert to float
+                # TypeError: if wrong type
                 return 0.0
         elif node_type == ExtendedNodeType.CAST_STRING:
             return str(args[0])

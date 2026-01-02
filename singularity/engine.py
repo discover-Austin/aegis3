@@ -37,6 +37,10 @@ from typing import Dict, List, Optional, Set, Tuple, Any, Callable
 import tempfile
 import subprocess
 
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from utils.memoization import LRUCache
+
 
 @dataclass
 class Constitution:
@@ -244,7 +248,11 @@ class SingularityEngine:
         
         # Snapshots for rollback
         self.snapshots: Dict[str, Dict[str, str]] = {}
-        
+
+        # Memoization cache for capability measurements and hypotheses
+        self._capability_cache = LRUCache(maxsize=64, ttl=30.0)  # Cache expires after 30s
+        self._hypothesis_cache = LRUCache(maxsize=128)
+
         # Modifiable components (including modification logic itself)
         self.modifiable_components = {
             'genesis': 'genesis/engine.py',
@@ -682,10 +690,9 @@ class SingularityEngine:
             Path(temp_path).unlink(missing_ok=True)
     
     def step(self) -> Dict:
-        # TODO: Add memoization cache
-        """Run one cycle of recursive self-improvement."""
+        """Run one cycle of recursive self-improvement (with memoization)."""
         self.cycle += 1
-        
+
         results = {
             'cycle': self.cycle,
             'depth': self.current_depth,
@@ -693,9 +700,17 @@ class SingularityEngine:
             'modification': None,
             'applied': False
         }
-        
-        # Measure current capability
-        results['capability'] = self.measure_capability()
+
+        # Measure current capability (with caching)
+        # Cache key is based on cycle and modification count
+        cache_key = (self.cycle, self.total_modifications)
+        found, cached_capability = self._capability_cache.get((cache_key,), {})
+        if found:
+            results['capability'] = cached_capability
+        else:
+            capability = self.measure_capability()
+            self._capability_cache.put((cache_key,), {}, capability)
+            results['capability'] = capability
         
         # Generate hypothesis
         mod = self.generate_hypothesis()

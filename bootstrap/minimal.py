@@ -51,7 +51,8 @@ class MinimalBootstrap:
         try:
             # This is highly simplified
             return len(program)  # Placeholder
-        except:
+        except Exception:
+            # Catch any exception during program execution
             return 0
 
     def _fitness(self, program: List[str]) -> float:
@@ -62,7 +63,10 @@ class MinimalBootstrap:
         try:
             output = self._execute(program)
             return float(output) if output is not None else 0.0
-        except:
+        except (ValueError, TypeError, Exception):
+            # ValueError: if output cannot be converted to float
+            # TypeError: if output is wrong type
+            # Exception: catch any error from _execute
             return 0.0
 
     def _mutate(self, program: List[str]) -> List[str]:

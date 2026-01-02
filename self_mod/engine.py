@@ -232,7 +232,9 @@ class CodeIntrospector:
             params = {name: str(p.annotation) if p.annotation != inspect.Parameter.empty else 'Any'
                      for name, p in sig.parameters.items()}
             return_type = str(sig.return_annotation) if sig.return_annotation != inspect.Signature.empty else 'Any'
-        except:
+        except (ValueError, TypeError):
+            # ValueError: if func is not a valid callable
+            # TypeError: if signature is not available
             params = {}
             return_type = 'Any'
         

@@ -405,7 +405,11 @@ class NoveltyEngine:
                     vector.extend(char)
                 elif isinstance(char, (int, float)):
                     vector.append(float(char))
-            except:
+            except (TypeError, ValueError, AttributeError, Exception):
+                # TypeError: if func call fails or wrong type
+                # ValueError: if conversion fails
+                # AttributeError: if entity doesn't have expected attributes
+                # Exception: catch any other characterizer function errors
                 pass
         
         # Default characterization if no characterizers
